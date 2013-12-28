@@ -1,0 +1,5 @@
+form.ajaxForm.form-post(method='POST', action='/api/posts/create', role='form')
+  .form-group
+    textarea.form-control.input-post(data-provide='markdown',name='body', placeholder='Write something...')
+  .form-group.text-right.form-post-actions
+    button.btn.btn-primary.btn-publish(type='submit') Publish

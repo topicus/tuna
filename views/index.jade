@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .container
+    .row
+      .col-md-6.col-md-offset-3.circle-cont
+        h1 Shared Tuna
+        ul#toolbar
+          li.circle.post.animated.fadeInUp.first
+            i.fa.fa-file-text
+          li.circle.image.animated.fadeInUp.second
+            i.fa.fa-camera
+          li.circle.top10.animated.fadeInUp.thirt
+            i.fa.fa-list-ol
+          li.circle.quote.animated.fadeInUp.fourth
+            i.fa.fa-quote-left
+    .row#forms
+      .col-md-6.col-md-offset-3.circle-cont
+        ul.sharer-form
+          li.show
+            include form_post
+          li.hide
+            include form_image
+    .row#main
