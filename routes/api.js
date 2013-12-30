@@ -5,6 +5,7 @@ var mongoose = require('mongoose')
   , request = require('superagent');
 
 var Post = mongoose.model('post');
+var Image = mongoose.model('image');
 var contentTpl = {
   'posts': 'post',
   'images': 'image',
@@ -12,8 +13,11 @@ var contentTpl = {
 
 
 module.exports = function(app) {
-  app.post('/api/posts/create', createPost, gracefulRes());
+  app.post('/api/posts', createPost, gracefulRes());
+  app.post('/api/images', createImage, render());
+  app.post('/api/images/upload', uploadImage, render());
   app.get('/api/:type/:id', loadContent, render())
+
 };
 
 /*
@@ -64,6 +68,46 @@ var createPost = function(req, res, next){
   });  
 };
 
+/*
+ * Create new image
+ */
+var createImage = function(req, res, next){  
+  var image = new Image({
+    body: req.body.body
+  });
+  image.save(function(err, image){
+    console.log(err);
+    if(err) {
+      return res.send(500); 
+    }
+    res.locals.item = image;
+    res.locals.type = 'image';
+    next();
+  });  
+};
+
+
+/*
+ * upload image
+ */
+
+var uploadImage = function(req, res, next) {
+  var image = (req.files && req.files.image && req.files.image.type.indexOf('image/') != -1 
+    && '/uploads/' + req.files.image.path.split('/').pop() + '.' + req.files.image.name.split('.').pop());
+
+  if(req.files && req.files.image && req.files.image.type.indexOf('image/') != -1) {
+    var tmp_path = req.files.image.path
+      , target_path = './public' + image;
+
+    fs.rename(tmp_path, target_path, function(err) {
+      if (err) throw err;
+      fs.unlink(tmp_path, function() {
+        if (err) throw err;
+        res.json({href: image});
+      });
+    });
+  }
+};
 
 /*
  * Load post

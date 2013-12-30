@@ -4,25 +4,28 @@
   var $ajaxForm = $('.ajaxForm')
     , $main = $('#main')
     , $forms = $('#forms')
+    , $dragdrop = $('#dragdrop')
     , $toolbar = $('#toolbar');
 
   var formError = function(field){
     alert("error");
   };
   var formSuccess = function(res){
-    page('/posts/' + res.id)
+    page('/t/posts/' + res.id)
   };  
-  var showTuna = function(html){
-    $main.html(html);
-    hideToolbar();
-    hideForms();
-  };
   var hideToolbar = function(){
     $toolbar.hide();
   };
   var hideForms = function(){
     $forms.hide();
   };  
+  var showToolbar = function(){
+    $toolbar.show();
+  };
+  var showForms = function(){
+    $forms.show();
+  };    
+
   $('.ajaxForm').ajaxForm({
     error: formError,
     success: formSuccess,
@@ -31,28 +34,52 @@
   $( ".input-post" ).markdown();
 
   //Client side routes
-  var index = function(ctx){
-    
+  var showIndex = function(ctx){
+    $main.hide();
+    showToolbar();
+    showForms();
   };
   var showContent = function(ctx){
     request
     .get('/api/' + ctx.params.type + '/' + ctx.params.id)
     .end(function(res){
-      console.log(res);
       $main.html(res.body.html);
+      $main.show();
       hideToolbar();
       hideForms();
     }); 
   };
-  page('/', index);
-  page('/:type/:id', showContent);
+
+  page('/', showIndex);
+  page('/t/:type/:id', showContent);
   page();
 
-
-  // $('.sharer-toolbar li').on('click', function(e){
-  //   console.log($('.sharer-form li').eq($(e.currentTarget).index()));
-  //   $('.sharer-form li').eq($(e.currentTarget).index()).removeClass('show');
-  //   $('.sharer-form li').eq($(e.currentTarget).index()).hide();
-  // })
+  $('#toolbar li').on('click', function(e){
+    $('.form-base li').hide();
+    $('.form-base li').eq($(e.currentTarget).index()).show();
+  });
+  $dragdrop.filedrop({
+    fallback_id: 'image',
+    url: '/api/images/upload',
+    paramname: 'image',
+    allowedfiletypes: ['image/jpeg','image/png','image/gif'],
+    maxfiles: 1,
+    maxfilesize: 3,
+    dragOver: function () {
+      $dragdrop.css('background', 'rgb(226, 255, 226)');
+    },
+    dragLeave: function () {
+      $dragdrop.css('background', 'rgb(241, 241, 241)');
+    },
+    drop: function () {
+      $dragdrop.css('background', 'rgb(241, 241, 241)');
+    },
+    uploadFinished: function(i, file, res, time) {
+      $dragdrop
+        .css('background', 'url('+res.href+') center center')
+        .css('background-size', '100% 100%')
+        .children('p').hide();
+    }
+  });  
 
 })();

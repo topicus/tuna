@@ -5,7 +5,7 @@
 
 module.exports = function(app){
   app.get('/', render('index'));
-  app.get('/posts/:post_id', render('index'));
+  app.get('/t/:type/:id', render('index'));
 };
 
 /*

@@ -1,8 +1,10 @@
-form.ajaxForm(method='POST', action='/api/image/create', role='form')
+form.ajaxForm(method='POST', action='/api/images', role='form')
   .form-group
-    input.form-control(name="image", type='file', placeholder='Upload Image')
+    #dragdrop 
+      p Drag Image Here
+      input.form-control(name="image", type='file', placeholder='Upload Image')
   .form-group
-    textarea.form-control(name="bio", placeholder='Write something...')
-  .form-group
-    button.cancel.btn.btn-default Cancel
-    button.btn.btn-success(type="submit") Upload
+    textarea.form-control(name="body", placeholder='Write something...')
+  .form-group.form-actions
+    button.cancel.btn.btn-default.btn-custom Cancel
+    button.btn.btn-success.btn-custom(type="submit") Upload
