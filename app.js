@@ -19,7 +19,7 @@ mongoose.connect(config.db.url || ('mongodb://' + config.db.host + '/'+ config.d
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', config.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
