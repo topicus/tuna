@@ -6,6 +6,8 @@ var mongoose = require('mongoose')
 
 var Post = mongoose.model('post');
 var Image = mongoose.model('image');
+var Quote = mongoose.model('quote');
+
 var contentTpl = {
   'posts': 'post',
   'images': 'image',
@@ -14,6 +16,7 @@ var contentTpl = {
 
 module.exports = function(app) {
   app.post('/api/posts', createPost, gracefulRes());
+  app.post('/api/quote', createQuote, gracefulRes());
   app.post('/api/images', createImage, gracefulRes());
   app.post('/api/images/upload', uploadImage, render());
   app.get('/api/:type/:id', loadContent, render())
@@ -64,6 +67,23 @@ var createPost = function(req, res, next){
     }
     res.locals.item = post;
     res.locals.type = 'post';
+    next();
+  });  
+};
+
+/*
+ * Save new quote
+ */
+var createQuote = function(req, res, next){  
+  var quote = new Quote({
+    body: req.body.body
+  });
+  quote.save(function(err, quote){
+    if(err) {
+      return res.send(500); 
+    }
+    res.locals.item = quote;
+    res.locals.type = 'quote';
     next();
   });  
 };

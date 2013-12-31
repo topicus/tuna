@@ -89,6 +89,19 @@ ul {
   padding: 0;
   margin: 0;
 }
+.view-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  border-radius: 10px !important;
+}
+.btn-custom {
+  font-family: 'VAG round';
+  font-size: 1.2em;
+  border-radius: 6px;
+  padding-left: 20px;
+  padding-right: 20px; 
+}
 
 /* POSTS */
 .form-base {
@@ -104,21 +117,13 @@ ul {
 .form-actions {
   margin-bottom: 3px !important;
 }
-.post-container {
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px;
-  border-radius: 10px !important;
-}
-.btn-custom {
-  font-family: 'VAG round';
-  font-size: 1.2em;
-  border-radius: 6px;
-  padding-left: 20px;
-  padding-right: 20px; 
-}
 
 /* IMAGES*/
+
+
+/*-------------------------
+    dragdrop Element
+--------------------------*/
 #dragdrop {
   height: 100px;
   border: dashed 2px #999;
@@ -137,13 +142,7 @@ ul {
   color: silver;
 }
 
-/*-------------------------
-    dragdrop Element
---------------------------*/
-
 #dragdrop{
-    background:url('../img/background_tile_3.jpg');
-
     border-radius:3px;
     position: relative;
     min-height: 290px;
