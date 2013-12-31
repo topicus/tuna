@@ -6,6 +6,7 @@ var mongoose = require('mongoose')
 
 var Post = mongoose.model('post');
 var Image = mongoose.model('image');
+var Top = mongoose.model('top');
 var Quote = mongoose.model('quote');
 
 var contentTpl = {
@@ -15,6 +16,7 @@ var contentTpl = {
 
 
 module.exports = function(app) {
+  app.post('/api/tops', createTop, gracefulRes());
   app.post('/api/posts', createPost, gracefulRes());
   app.post('/api/quote', createQuote, gracefulRes());
   app.post('/api/images', createImage, gracefulRes());
@@ -71,22 +73,6 @@ var createPost = function(req, res, next){
   });  
 };
 
-/*
- * Save new quote
- */
-var createQuote = function(req, res, next){  
-  var quote = new Quote({
-    body: req.body.body
-  });
-  quote.save(function(err, quote){
-    if(err) {
-      return res.send(500); 
-    }
-    res.locals.item = quote;
-    res.locals.type = 'quote';
-    next();
-  });  
-};
 
 /*
  * Create new image
@@ -111,7 +97,6 @@ var createImage = function(req, res, next){
 /*
  * upload image
  */
-
 var uploadImage = function(req, res, next) {
   var image = (req.files && req.files.image && req.files.image.type.indexOf('image/') != -1 
     && '/uploads/' + req.files.image.path.split('/').pop() + '.' + req.files.image.name.split('.').pop());
@@ -128,6 +113,40 @@ var uploadImage = function(req, res, next) {
       });
     });
   }
+};
+
+/*
+ * Save new top
+ */
+var createTop = function(req, res, next){  
+  var top = new Top({
+    items: req.body.items
+  });
+  top.save(function(err, top){
+    if(err) {
+      return res.send(500); 
+    }
+    res.locals.item = top;
+    res.locals.type = 'top';
+    next();
+  });  
+};
+
+/*
+ * Save new quote
+ */
+var createQuote = function(req, res, next){  
+  var quote = new Quote({
+    body: req.body.body
+  });
+  quote.save(function(err, quote){
+    if(err) {
+      return res.send(500); 
+    }
+    res.locals.item = quote;
+    res.locals.type = 'quote';
+    next();
+  });  
 };
 
 /*

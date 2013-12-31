@@ -1,0 +1,22 @@
+form.ajaxForm.form-post(method='POST', action='/api/tops', role='form')
+  .form-group#topItems
+    .input-group.top-item
+      span.input-group-addon 1.
+      input.form-control.input-list(name='items[]', placeholder='Write something...')
+    .input-group.top-item
+      span.input-group-addon 2.
+      input.form-control.input-list(name='items[]', placeholder='Write something...')
+    .input-group.top-item
+      span.input-group-addon 3.
+      input.form-control.input-list(name='items[]', placeholder='Write something...')
+    .input-group.top-item
+      span.input-group-addon 4.
+      input.form-control.input-list(name='items[]', placeholder='Write something...')
+    .input-group.top-item
+      span.input-group-addon 5.
+      input.form-control.input-list(name='items[]', placeholder='Write something...')
+
+  .form-group.text-right.form-actions.form-top-actions
+    button.btn.btn-success.btn-custom.spanned#addItemTop(type='button') Add Item
+  .form-group.text-right.form-actions.form-top-actions
+    button.btn.btn-primary.btn-custom(type='submit') Publish

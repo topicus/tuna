@@ -8,6 +8,22 @@
     , $toolbar = $('#toolbar')
     , $imagehref = $('#image_href');
 
+  //MOVE TPL's TO OTHER FILE
+  var previewTpl = '<div class="preview">'+
+                      '<span class="imageHolder">'+
+                          '<img />'+
+                          '<span class="uploaded"></span>'+
+                      '</span>'+
+                      '<div class="progressHolder">'+
+                          '<div class="progress"></div>'+
+                      '</div>'+
+                    '</div>';
+
+  var itemTopTpl = '<div class="input-group top-item">' + 
+                      '<span class="span input-group-addon"><%= place %></span>' +
+                      '<input class="input form-control input-list" name="item" placeholder="Write something...">' +
+                    '</div>';
+
   var formError = function(field){
     alert("error");
   };
@@ -63,7 +79,15 @@
   });
   /* End Toolbar show/hide */
   
+  /*Top handlers*/
+  $('#addItemTop').on('click', function(){
+    var item_count = $('#topItems .top-item').length + 1;
+    $('#topItems').append(_.template(itemTopTpl, {place:item_count + '.'}));
+  });
+  /*End Top handlers*/
+  
 
+  /*FIX THIS*/
   var upload_image = null;
   $dragdrop.filedrop({
     url: '/api/images/upload',
@@ -81,11 +105,10 @@
       $dragdrop.css('background', 'rgb(241, 241, 241)');
     },
     uploadStarted:function(i, file, len){
-        createImage(file);
+      createImage(file);
     },
-
     progressUpdated: function(i, file, progress) {
-        $.data(file).find('.progress').width(progress);
+      $.data(file).find('.progress').width(progress);
     }, 
     uploadFinished: function(i, file, res, time) {
       $.data(file).addClass('done');
@@ -93,19 +116,11 @@
     }
   });  
 
-  var template = '<div class="preview">'+
-                          '<span class="imageHolder">'+
-                              '<img />'+
-                              '<span class="uploaded"></span>'+
-                          '</span>'+
-                          '<div class="progressHolder">'+
-                              '<div class="progress"></div>'+
-                          '</div>'+
-                      '</div>'; 
+
   var dragdrop_message = $('#dragdrop .message');
   var createImage = function (file){
       $dragdrop.find('.preview').remove();
-      var preview = $(template),
+      var preview = $(previewTpl),
           image = $('img', preview);
 
       var reader = new FileReader();
@@ -121,5 +136,5 @@
       dragdrop_message.hide();
       $.data(file,preview);
   };
-
+  /*END FIX THIS*/
 })();

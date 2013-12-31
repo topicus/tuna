@@ -12,13 +12,10 @@ module.exports = function(app) {
     , "body": { type: String}
   });
   mongoose.model('image', Image);
-  var List = new Schema({
-    "items" :  [{
-        "image" : { type: String }
-      , "body" : { type: String }
-    }]
+  var Top = new Schema({
+    "items" :  [String]
   });
-  mongoose.model('list', List);
+  mongoose.model('top', Top);
   var Quote = new Schema({
     "body": { type: String, required: true }
   });
