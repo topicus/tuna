@@ -9,7 +9,7 @@ module.exports = function(app) {
   mongoose.model('post', Post);
   var Image = new Schema({
       "image" :  { type: String, required: true }
-    , "body": { type: String, required: true }
+    , "body": { type: String}
   });
   mongoose.model('image', Image);
   var List = new Schema({

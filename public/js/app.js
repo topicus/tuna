@@ -5,13 +5,14 @@
     , $main = $('#main')
     , $forms = $('#forms')
     , $dragdrop = $('#dragdrop')
-    , $toolbar = $('#toolbar');
+    , $toolbar = $('#toolbar')
+    , $imagehref = $('#image_href');
 
   var formError = function(field){
     alert("error");
   };
   var formSuccess = function(res){
-    page('/t/posts/' + res.id)
+    page('/t/'+res.type+'s/' + res.id)
   };  
   var hideToolbar = function(){
     $toolbar.hide();
@@ -33,7 +34,7 @@
   });
   $( ".input-post" ).markdown();
 
-  //Client side routes
+  /* Client side routes */
   var showIndex = function(ctx){
     $main.hide();
     showToolbar();
@@ -49,17 +50,22 @@
       hideForms();
     }); 
   };
-
+  
   page('/', showIndex);
   page('/t/:type/:id', showContent);
   page();
-
+  /* End Client side routes */
+  
+  /* Toolbar show/hide */
   $('#toolbar li').on('click', function(e){
     $('.form-base li').hide();
     $('.form-base li').eq($(e.currentTarget).index()).show();
   });
+  /* End Toolbar show/hide */
+  
+
+  var upload_image = null;
   $dragdrop.filedrop({
-    fallback_id: 'image',
     url: '/api/images/upload',
     paramname: 'image',
     allowedfiletypes: ['image/jpeg','image/png','image/gif'],
@@ -74,12 +80,46 @@
     drop: function () {
       $dragdrop.css('background', 'rgb(241, 241, 241)');
     },
+    uploadStarted:function(i, file, len){
+        createImage(file);
+    },
+
+    progressUpdated: function(i, file, progress) {
+        $.data(file).find('.progress').width(progress);
+    }, 
     uploadFinished: function(i, file, res, time) {
-      $dragdrop
-        .css('background', 'url('+res.href+') center center')
-        .css('background-size', '100% 100%')
-        .children('p').hide();
+      $.data(file).addClass('done');
+      $imagehref.val(res.href);
     }
   });  
+
+  var template = '<div class="preview">'+
+                          '<span class="imageHolder">'+
+                              '<img />'+
+                              '<span class="uploaded"></span>'+
+                          '</span>'+
+                          '<div class="progressHolder">'+
+                              '<div class="progress"></div>'+
+                          '</div>'+
+                      '</div>'; 
+  var dragdrop_message = $('#dragdrop .message');
+  var createImage = function (file){
+      $dragdrop.find('.preview').remove();
+      var preview = $(template),
+          image = $('img', preview);
+
+      var reader = new FileReader();
+      image.width = 100;
+      image.height = 100;
+
+      reader.onload = function(e){
+        image.attr('src',e.target.result);
+        preview.css({top:'50%',left:'50%',margin:'-'+(preview.height() / 2)+'px 0 0 -'+(preview.width() / 2)+'px'});
+      };
+      reader.readAsDataURL(file);
+      preview.appendTo($dragdrop);
+      dragdrop_message.hide();
+      $.data(file,preview);
+  };
 
 })();

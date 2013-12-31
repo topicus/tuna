@@ -1,10 +1,10 @@
 form.ajaxForm(method='POST', action='/api/images', role='form')
   .form-group
     #dragdrop 
-      p Drag Image Here
+      p.message Drag Image Here
       input.form-control(name="image", type='file', placeholder='Upload Image')
+      input#image_href(name='image_href', type='hidden')
   .form-group
     textarea.form-control(name="body", placeholder='Write something...')
-  .form-group.form-actions
-    button.cancel.btn.btn-default.btn-custom Cancel
-    button.btn.btn-success.btn-custom(type="submit") Upload
+  .form-group.form-actions.text-right
+    button.btn.btn-primary.btn-custom(type="submit") Publish

@@ -14,7 +14,7 @@ var contentTpl = {
 
 module.exports = function(app) {
   app.post('/api/posts', createPost, gracefulRes());
-  app.post('/api/images', createImage, render());
+  app.post('/api/images', createImage, gracefulRes());
   app.post('/api/images/upload', uploadImage, render());
   app.get('/api/:type/:id', loadContent, render())
 
@@ -73,6 +73,7 @@ var createPost = function(req, res, next){
  */
 var createImage = function(req, res, next){  
   var image = new Image({
+    image: req.body.image_href,
     body: req.body.body
   });
   image.save(function(err, image){

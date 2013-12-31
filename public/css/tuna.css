@@ -136,3 +136,93 @@ ul {
   margin-top: 40px;
   color: silver;
 }
+
+/*-------------------------
+    dragdrop Element
+--------------------------*/
+
+#dragdrop{
+    background:url('../img/background_tile_3.jpg');
+
+    border-radius:3px;
+    position: relative;
+    min-height: 290px;
+    overflow: hidden;
+    padding-bottom: 40px;
+}
+
+#dragdrop .message{
+    text-align: center;
+    padding-top:90px;
+    display: block;
+}
+
+#dragdrop .message i{
+    color:#ccc;
+}
+
+#dragdrop:before{
+    border-radius:3px 3px 0 0;
+}
+
+/*-------------------------
+    Image Previews
+--------------------------*/
+
+#dragdrop .preview{
+    width:245px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+}
+
+#dragdrop .preview img{
+    max-width: 240px;
+    max-height:180px;
+    border:3px solid #fff;
+    display: block;
+}
+
+#dragdrop .imageHolder{
+    display: inline-block;
+    position:relative;
+}
+
+#dragdrop .uploaded{
+    position: absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    background: url('../img/done.png') no-repeat center center rgba(255,255,255,0.5);
+    display: none;
+}
+
+#dragdrop .preview.done .uploaded{
+    display: block;
+}
+
+/*-------------------------
+    Progress Bars
+--------------------------*/
+
+#dragdrop .progressHolder{
+    background-color:#252f38;
+    height:8px;
+    width:100%;
+    margin-top:10px;
+}
+
+#dragdrop .progress{
+    background-color:#2586d0;
+    height:8px;
+    width:0;
+    -moz-transition:0.25s;
+    -webkit-transition:0.25s;
+    -o-transition:0.25s;
+    transition:0.25s;
+}
+
+#dragdrop .preview.done .progress{
+    width:100% !important;
+}
