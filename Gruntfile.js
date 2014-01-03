@@ -14,7 +14,13 @@ module.exports = function (grunt) {
     },
     concat: {
       develop: {
-        src: ['public/js/*.js', 'public/js/libs/*.js'],
+        src:[
+          'public/js/libs/jquery-1.10.2.js', 'public/js/libs/jquery.form.js',
+          'public/js/libs/underscore.js', 'public/js/libs/superagent.js',
+          'public/js/libs/bootstrap.js', 'public/js/libs/page.js',
+          'public/js/libs/jquery.filedrop.js', 'public/js/libs/summernote.js',
+          'public/js/app.js'
+        ],
         dest: 'public/js/production.js',
       },
     },    
@@ -81,5 +87,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['concat', 'develop', 'delayed-livereload', 'watch']);
+  grunt.registerTask('default', ['concat', 'uglify','develop', 'watch']);
 };

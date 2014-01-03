@@ -5,7 +5,7 @@
     , $main = $('#main')
     , $forms = $('#forms')
     , $dragdrop = $('#dragdrop')
-    , $toolbar = $('#toolbar')
+    , $toolbar = $('#contentTypesContainer')
     , $imagehref = $('#image_href');
 
   //MOVE TPL's TO OTHER FILE
