@@ -12,6 +12,18 @@ module.exports = function (grunt) {
         file: 'app.js'
       }
     },
+    concat: {
+      develop: {
+        src: ['public/js/*.js', 'public/js/libs/*.js'],
+        dest: 'public/js/production.js',
+      },
+    },    
+    uglify : {
+      build: {
+        src: 'public/js/production.js',
+        dest: 'public/js/production.min.js'
+      }
+    },
     watch: {
       options: {
         nospawn: true,
@@ -66,6 +78,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-develop');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask('default', ['develop', 'watch']);
+  grunt.registerTask('default', ['concat', 'develop', 'delayed-livereload', 'watch']);
 };

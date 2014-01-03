@@ -10,7 +10,7 @@ body {
   background: #2b2b2b;
 }
 
-h1 {
+h1.page-heading {
   font-family: 'VAG round';
   font-size : 60px;
   color:#FFF;
@@ -83,7 +83,7 @@ textarea {
 
   font-family: 'VAG round';
 }
-ul {
+ul.no-space {
   padding: 0;
   margin: 0;
 }
@@ -112,7 +112,7 @@ ul {
   background-color: white;
   border-radius: 10px;
   padding: 10px;
-  border-radius: 10px !important;  
+  border-radius: 10px !important;
 }
 .form-post textarea{
   font-size: 2em !important;
@@ -122,6 +122,21 @@ ul {
   margin-bottom: 3px !important;
 }
 
+/* OVERRIDE SUMMERNOTE */
+.note-editor {
+  border: none !important;
+}
+.note-editable {
+  overflow: auto !important;
+  min-height: 300px;
+}
+.note-toolbar{
+  background-color: white !important;
+  border: none !important;
+}
+.note-style ul li {
+  cursor: pointer;
+}
 /* IMAGES*/
 .image-container img{
   width: 100%;

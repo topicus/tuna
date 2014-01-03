@@ -29,7 +29,10 @@
   };
   var formSuccess = function(res){
     page('/t/'+res.type+'s/' + res.id)
-  };  
+  };
+  var formBeforeSubmit = function(arr, $form, options) {
+    arr.push({type:'textarea', name:'body', value:$('#inputPost').code() }); 
+  };
   var hideToolbar = function(){
     $toolbar.hide();
   };
@@ -46,9 +49,9 @@
   $('.ajaxForm').ajaxForm({
     error: formError,
     success: formSuccess,
+    beforeSubmit: formBeforeSubmit,
     resetForm: true,
   });
-  $( ".input-post" ).markdown();
 
   /* Client side routes */
   var showIndex = function(ctx){
@@ -73,19 +76,32 @@
   /* End Client side routes */
   
   /* Toolbar show/hide */
-  $('#toolbar li').on('click', function(e){
-    $('.form-base li').hide();
-    $('.form-base li').eq($(e.currentTarget).index()).show();
+  $('#contentTypesContainer>li').on('click', function(e){
+    console.log(e.target);
+    $('.form-base>li').hide();
+    $('.form-base>li').eq($(e.currentTarget).index()).show();
   });
-  /* End Toolbar show/hide */
   
   /*Top handlers*/
   $('#addItemTop').on('click', function(){
     var item_count = $('#topItems .top-item').length + 1;
     $('#topItems').append(_.template(itemTopTpl, {place:item_count + '.'}));
   });
-  /*End Top handlers*/
+
   
+  $('#inputPost').summernote({
+    focus: true,
+    toolbar: [
+      ['style', ['style']],
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['fontsize', ['fontsize']],
+      ['para', ['ul', 'ol']],
+      ['insert', ['picture', 'link', 'video']], // no insert buttons
+    ],
+    oninit: function(e) {
+      document.execCommand('selectAll',false,null);
+    }
+  });
 
   /*FIX THIS*/
   var upload_image = null;

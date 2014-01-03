@@ -6,6 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , http = require('http')
+  , MongoStore = require('connect-mongo')(express)
+  , passport = require('passport')
   , config = require('./config.json')
   , mongoose = require('mongoose')
   , path = require('path');
@@ -13,12 +15,12 @@ var express = require('express')
 /*
  * DB
  */
-console.log("here");
 mongoose.connect(config.db.url || ('mongodb://' + config.db.host + '/'+ config.db.name));
 
 var app = express();
 
 app.configure(function(){
+  app.set('config', config);
   app.set('port', config.port || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -27,6 +29,16 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.limit('3.5mb'));
   app.use(express.methodOverride());
+  app.use(express.methodOverride());
+  app.use(express.cookieParser(app.get('config').session));
+  app.use(express.session({
+      secret: app.get('config').session
+    , store: new MongoStore({db: app.get('config').db.name
+    , url:app.get('config').db.url}) 
+    , cookie: { maxAge: 365 * 24 * 60 * 60 * 1000, path: '/', domain: '.' + app.get('config').host }
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());  
   app.use(app.router); 
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(function(req, res) {
@@ -47,7 +59,6 @@ app.configure('development', function(){
 /*
  * Models
  */
-
 require('./models')(app);
 
 /*

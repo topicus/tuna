@@ -42,6 +42,7 @@ var render = function() {
   return function(req, res) { 
     res.render(res.locals.tpl, function(err, html){
       if(err) return res.send(500);
+      console.log(html);
       res.json({html: html});
     });
   };
@@ -65,7 +66,7 @@ var createPost = function(req, res, next){
   });
   post.save(function(err, post){
     if(err) {
-      return res.send(500); 
+      return res.send(500);
     }
     res.locals.item = post;
     res.locals.type = 'post';
@@ -157,8 +158,8 @@ var loadContent = function(req, res, next){
  var Content = mongoose.model(modelName);
  Content.findById(req.params.id)
   .exec(function(err, content) {
-    console.log(err, content);
     if(err || !content) return res.send(500);
+    console.log(content);
     res.locals.content = content;
     res.locals.item = modelName;
     res.locals.tpl = modelName;
